@@ -4,21 +4,25 @@ var GROUP_DEFINITIONS = [
     value: '央视频道',
     title: '央视频道',
     iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=3',
+    background: '07101D',
   },
   {
     value: '卫视频道',
     title: '卫视频道',
     iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=3',
+    background: '041226',
   },
   {
     value: '央视精选',
     title: '央视精选',
     iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=3',
+    background: '1C1110',
   },
   {
     value: '广播电台',
     title: '广播频道',
     iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=3',
+    background: '061426',
   },
 ];
 
@@ -189,11 +193,11 @@ function normalizeBackdropUrl(url) {
 }
 
 function normalizeGroupPosterUrl(definition) {
-  return normalizeCompositeLogoUrl(definition.iconUrl, 800, 1200, 760, 1140, 'FFFFFF');
+  return normalizeCompositeLogoUrl(definition.iconUrl, 800, 1200, 760, 1140, definition.background);
 }
 
 function normalizeGroupBackdropUrl(definition) {
-  return normalizeCompositeLogoUrl(definition.iconUrl, 1200, 500, 1120, 450, 'FFFFFF');
+  return normalizeCompositeLogoUrl(definition.iconUrl, 1200, 500, 1120, 450, definition.background);
 }
 
 function toVideoItem(channel, playable) {

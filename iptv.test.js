@@ -106,11 +106,11 @@ test('loadList returns large category cards instead of individual channels', asy
   assert.equal(item.link, 'iptv-group:央视频道');
   assert.equal(item.type, 'url');
   assert.equal(item.mediaType, undefined);
-  assert.equal(item.coverUrl, expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 800, 1200, 760, 1140, 'FFFFFF'));
+  assert.equal(item.coverUrl, expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 800, 1200, 760, 1140, '07101D'));
   assert.equal(item.posterPath, item.coverUrl);
-  assert.equal(item.backdropPath, expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 1200, 500, 1120, 450, 'FFFFFF'));
-  assert.equal(items[1].coverUrl, expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 800, 1200, 760, 1140, 'FFFFFF'));
-  assert.equal(items[1].backdropPath, expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 1200, 500, 1120, 450, 'FFFFFF'));
+  assert.equal(item.backdropPath, expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 1200, 500, 1120, 450, '07101D'));
+  assert.equal(items[1].coverUrl, expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 800, 1200, 760, 1140, '061426'));
+  assert.equal(items[1].backdropPath, expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 1200, 500, 1120, 450, '061426'));
   assert.equal(item.videoUrl, undefined);
   assert.equal(item.genreItems, undefined);
   assert.equal(item.episodeItems, undefined);
@@ -218,26 +218,25 @@ liveTest('real M3U exposes four category cards with the correct episode lists', 
   assert.ok(allItems.every((item) => item.genreItems === undefined));
   assert.ok(allItems.every((item) => item.playerType === 'app'));
   assert.ok(allItems.every((item) => item.coverUrl.startsWith('https://ik.imagekit.io/huangxd/tr:')));
-  assert.ok(allItems.every((item) => item.coverUrl.includes('w-800,h-1200,bg-FFFFFF')));
   assert.ok(allItems.every((item) => item.posterPath === item.coverUrl));
-  assert.ok(allItems.every((item) => item.backdropPath.includes('w-1200,h-500,bg-FFFFFF')));
+  assert.ok(allItems.every((item) => item.backdropPath.includes('w-1200,h-500')));
 
   const expectedGroupArtwork = {
     央视频道: [
-      expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 800, 1200, 760, 1140, 'FFFFFF'),
-      expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 1200, 500, 1120, 450, 'FFFFFF'),
+      expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 800, 1200, 760, 1140, '07101D'),
+      expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 1200, 500, 1120, 450, '07101D'),
     ],
     卫视频道: [
-      expectedCompositeLogoUrl(GROUP_SATELLITE_ICON_URL, 800, 1200, 760, 1140, 'FFFFFF'),
-      expectedCompositeLogoUrl(GROUP_SATELLITE_ICON_URL, 1200, 500, 1120, 450, 'FFFFFF'),
+      expectedCompositeLogoUrl(GROUP_SATELLITE_ICON_URL, 800, 1200, 760, 1140, '041226'),
+      expectedCompositeLogoUrl(GROUP_SATELLITE_ICON_URL, 1200, 500, 1120, 450, '041226'),
     ],
     央视精选: [
-      expectedCompositeLogoUrl(GROUP_FEATURED_ICON_URL, 800, 1200, 760, 1140, 'FFFFFF'),
-      expectedCompositeLogoUrl(GROUP_FEATURED_ICON_URL, 1200, 500, 1120, 450, 'FFFFFF'),
+      expectedCompositeLogoUrl(GROUP_FEATURED_ICON_URL, 800, 1200, 760, 1140, '1C1110'),
+      expectedCompositeLogoUrl(GROUP_FEATURED_ICON_URL, 1200, 500, 1120, 450, '1C1110'),
     ],
     广播频道: [
-      expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 800, 1200, 760, 1140, 'FFFFFF'),
-      expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 1200, 500, 1120, 450, 'FFFFFF'),
+      expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 800, 1200, 760, 1140, '061426'),
+      expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 1200, 500, 1120, 450, '061426'),
     ],
   };
   for (const card of allItems) {
