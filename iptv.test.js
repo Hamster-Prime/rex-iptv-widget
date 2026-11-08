@@ -8,10 +8,10 @@ const MODULE_PATH = path.join(__dirname, 'iptv.js');
 const DEFAULT_M3U_URL = 'http://10.0.0.254/IPTV.m3u';
 const CCTV_LOGO = 'https://live.fanmingming.com/tv/CCTV1.png';
 const RADIO_LOGO = 'https://live.fanmingming.com/radio/中国之声.png';
-const GROUP_CCTV_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=4';
-const GROUP_RADIO_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=4';
-const GROUP_SATELLITE_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=4';
-const GROUP_FEATURED_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=4';
+const GROUP_CCTV_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=6';
+const GROUP_RADIO_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=6';
+const GROUP_SATELLITE_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=6';
+const GROUP_FEATURED_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=6';
 
 const SAMPLE_M3U = `#EXTM3U x-tvg-url="https://example.com/epg.xml"
 #EXTINF:-1 tvg-id="cctv1" tvg-name="CCTV, One" tvg-logo="${CCTV_LOGO}" group-title="央视频道",CCTV-1 综合
@@ -47,6 +47,11 @@ function expectedCompositeLogoUrl(source, width, height, logoWidth, logoHeight, 
     `w-${width},h-${height},bg-${background},lfo-center,l-image,ie-${overlay},` +
     `w-${logoWidth},h-${logoHeight},cm-pad_resize,bg-${background},` +
     'lfo-center,l-end,l-end/transparent.png';
+}
+
+function expectedGroupArtworkUrl(url) {
+  return 'https://images.weserv.nl/?url=' + encodeURIComponent(url)
+    + '&w=1200&h=675&fit=contain&cbg=00000000&output=png';
 }
 
 test('parseM3U extracts stream metadata and preserves commas in titles', () => {
@@ -106,11 +111,11 @@ test('loadList returns large category cards instead of individual channels', asy
   assert.equal(item.link, 'iptv-group:央视频道');
   assert.equal(item.type, 'url');
   assert.equal(item.mediaType, undefined);
-  assert.equal(item.coverUrl, expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 1200, 675, 1100, 600));
+  assert.equal(item.coverUrl, expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL));
   assert.equal(item.posterPath, item.coverUrl);
-  assert.equal(item.backdropPath, expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 1200, 675, 1100, 600));
-  assert.equal(items[1].coverUrl, expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 1200, 675, 1100, 600));
-  assert.equal(items[1].backdropPath, expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 1200, 675, 1100, 600));
+  assert.equal(item.backdropPath, expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL));
+  assert.equal(items[1].coverUrl, expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL));
+  assert.equal(items[1].backdropPath, expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL));
   assert.equal(item.videoUrl, undefined);
   assert.equal(item.genreItems, undefined);
   assert.equal(item.episodeItems, undefined);
@@ -128,7 +133,7 @@ test('module removes the top-right enumeration and keeps the beta tag', () => {
   assert.equal(modules[0].sectionMode, undefined);
   assert.equal(modules[0].cacheDuration, 300);
   assert.equal(context.WidgetMetadata.detailCacheDuration, 300);
-  assert.equal(context.WidgetMetadata.version, '1.4.3');
+  assert.equal(context.WidgetMetadata.version, '1.4.4');
   assert.equal(modules[0].params.some((param) => param.name === 'group'), false);
   assert.equal(modules[0].params[0].value, DEFAULT_M3U_URL);
 });
@@ -217,27 +222,15 @@ liveTest('real M3U exposes four category cards with the correct episode lists', 
   assert.ok(allItems.every((item) => item.mediaType === undefined));
   assert.ok(allItems.every((item) => item.genreItems === undefined));
   assert.ok(allItems.every((item) => item.playerType === 'app'));
-  assert.ok(allItems.every((item) => item.coverUrl.startsWith('https://ik.imagekit.io/huangxd/tr:')));
+  assert.ok(allItems.every((item) => item.coverUrl.startsWith('https://images.weserv.nl/?url=')));
   assert.ok(allItems.every((item) => item.posterPath === item.coverUrl));
-  assert.ok(allItems.every((item) => item.backdropPath.includes('w-1200,h-675,bg-00000000')));
+  assert.ok(allItems.every((item) => item.backdropPath.includes('w=1200&h=675&fit=contain&cbg=00000000')));
 
   const expectedGroupArtwork = {
-    央视频道: [
-      expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 1200, 675, 1100, 600),
-      expectedCompositeLogoUrl(GROUP_CCTV_ICON_URL, 1200, 675, 1100, 600),
-    ],
-    卫视频道: [
-      expectedCompositeLogoUrl(GROUP_SATELLITE_ICON_URL, 1200, 675, 1100, 600),
-      expectedCompositeLogoUrl(GROUP_SATELLITE_ICON_URL, 1200, 675, 1100, 600),
-    ],
-    央视精选: [
-      expectedCompositeLogoUrl(GROUP_FEATURED_ICON_URL, 1200, 675, 1100, 600),
-      expectedCompositeLogoUrl(GROUP_FEATURED_ICON_URL, 1200, 675, 1100, 600),
-    ],
-    广播频道: [
-      expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 1200, 675, 1100, 600),
-      expectedCompositeLogoUrl(GROUP_RADIO_ICON_URL, 1200, 675, 1100, 600),
-    ],
+    央视频道: [expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL), expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL)],
+    卫视频道: [expectedGroupArtworkUrl(GROUP_SATELLITE_ICON_URL), expectedGroupArtworkUrl(GROUP_SATELLITE_ICON_URL)],
+    央视精选: [expectedGroupArtworkUrl(GROUP_FEATURED_ICON_URL), expectedGroupArtworkUrl(GROUP_FEATURED_ICON_URL)],
+    广播频道: [expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL), expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL)],
   };
   for (const card of allItems) {
     assert.equal(card.coverUrl, expectedGroupArtwork[card.title][0]);

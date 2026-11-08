@@ -3,22 +3,22 @@ var GROUP_DEFINITIONS = [
   {
     value: '央视频道',
     title: '央视频道',
-    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=4',
+    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=6',
   },
   {
     value: '卫视频道',
     title: '卫视频道',
-    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=4',
+    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=6',
   },
   {
     value: '央视精选',
     title: '央视精选',
-    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=4',
+    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=6',
   },
   {
     value: '广播电台',
     title: '广播频道',
-    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=4',
+    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=6',
   },
 ];
 
@@ -52,7 +52,7 @@ var WidgetMetadata = {
   title: 'IPTV 直播',
   description: '读取 M3U 播放列表，按分组浏览并通过详情选集播放 IPTV 频道',
   author: 'Sanite',
-  version: '1.4.3',
+  version: '1.4.4',
   requiredVersion: '0.0.1',
   detailCacheDuration: 300,
   modules: [createIptvModule()],
@@ -189,11 +189,13 @@ function normalizeBackdropUrl(url) {
 }
 
 function normalizeGroupPosterUrl(definition) {
-  return normalizeCompositeLogoUrl(definition.iconUrl, 1200, 675, 1100, 600);
+  return 'https://images.weserv.nl/?url=' + encodeURIComponent(definition.iconUrl)
+    + '&w=1200&h=675&fit=contain&cbg=00000000&output=png';
 }
 
 function normalizeGroupBackdropUrl(definition) {
-  return normalizeCompositeLogoUrl(definition.iconUrl, 1200, 675, 1100, 600);
+  return 'https://images.weserv.nl/?url=' + encodeURIComponent(definition.iconUrl)
+    + '&w=1200&h=675&fit=contain&cbg=00000000&output=png';
 }
 
 function toVideoItem(channel, playable) {
