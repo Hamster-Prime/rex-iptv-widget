@@ -12,7 +12,7 @@ The default M3U source is `http://10.0.0.254/IPTV.m3u`. The playback device must
 
 ## Contents
 
-- `iptv.js` — widget module, version 1.4.6
+- `iptv.js` — widget module, version 1.4.7
 - `iptv.test.js` — Node.js unit and live-source integration tests
 - `icons/cctv.png` — 央视频道
 - `icons/satellite.png` — 卫视频道

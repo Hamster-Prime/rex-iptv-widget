@@ -3,22 +3,22 @@ var GROUP_DEFINITIONS = [
   {
     value: '央视频道',
     title: '央视频道',
-    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=6',
+    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=7',
   },
   {
     value: '卫视频道',
     title: '卫视频道',
-    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=6',
+    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=7',
   },
   {
     value: '央视精选',
     title: '央视精选',
-    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=6',
+    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=7',
   },
   {
     value: '广播电台',
     title: '广播频道',
-    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=6',
+    iconUrl: 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=7',
   },
 ];
 
@@ -52,7 +52,7 @@ var WidgetMetadata = {
   title: 'IPTV 直播',
   description: '读取 M3U 播放列表，按分组浏览并通过详情选集播放 IPTV 频道',
   author: 'Sanite',
-  version: '1.4.6',
+  version: '1.4.7',
   requiredVersion: '0.0.1',
   detailCacheDuration: 300,
   modules: [createIptvModule()],
@@ -188,21 +188,16 @@ function normalizeBackdropUrl(url) {
   return normalizeCompositeLogoUrl(url, 1200, 500, 800, 400);
 }
 
-function normalizeGroupArtworkUrl(definition, width, height) {
-  return 'https://images.weserv.nl/?url=' + encodeURIComponent(definition.iconUrl)
-    + '&w=' + width + '&h=' + height + '&fit=contain&cbg=00000000&output=png';
-}
-
 function normalizeGroupCoverUrl(definition) {
   return definition.iconUrl.replace('/icons/', '/icons/cover/');
 }
 
 function normalizeGroupPosterUrl(definition) {
-  return normalizeGroupArtworkUrl(definition, 800, 1200);
+  return definition.iconUrl.replace('/icons/', '/icons/poster/');
 }
 
 function normalizeGroupBackdropUrl(definition) {
-  return normalizeGroupArtworkUrl(definition, 1200, 675);
+  return definition.iconUrl.replace('/icons/', '/icons/backdrop/');
 }
 
 function toVideoItem(channel, playable) {
