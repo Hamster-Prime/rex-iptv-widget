@@ -1,4 +1,4 @@
-var DEFAULT_M3U_URL = 'http://10.0.0.254/IPTV.m3u';
+var DEFAULT_M3U_URL = 'http://10.0.0.6/hls/IPTV.m3u';
 var GROUP_DEFINITIONS = [
   {
     value: '央视频道',
@@ -52,7 +52,7 @@ var WidgetMetadata = {
   title: 'IPTV 直播',
   description: '读取 M3U 播放列表，按分组浏览并通过详情选集播放 IPTV 频道',
   author: 'Sanite',
-  version: '1.4.7',
+  version: '1.4.8',
   requiredVersion: '0.0.1',
   detailCacheDuration: 300,
   modules: [createIptvModule()],

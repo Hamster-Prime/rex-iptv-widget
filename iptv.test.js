@@ -5,7 +5,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const MODULE_PATH = path.join(__dirname, 'iptv.js');
-const DEFAULT_M3U_URL = 'http://10.0.0.254/IPTV.m3u';
+const DEFAULT_M3U_URL = 'http://10.0.0.6/hls/IPTV.m3u';
 const CCTV_LOGO = 'https://live.fanmingming.com/tv/CCTV1.png';
 const RADIO_LOGO = 'https://live.fanmingming.com/radio/中国之声.png';
 const GROUP_CCTV_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=7';
@@ -141,7 +141,7 @@ test('module removes the top-right enumeration and keeps the beta tag', () => {
   assert.equal(modules[0].sectionMode, undefined);
   assert.equal(modules[0].cacheDuration, 300);
   assert.equal(context.WidgetMetadata.detailCacheDuration, 300);
-  assert.equal(context.WidgetMetadata.version, '1.4.7');
+  assert.equal(context.WidgetMetadata.version, '1.4.8');
   assert.equal(modules[0].params.some((param) => param.name === 'group'), false);
   assert.equal(modules[0].params[0].value, DEFAULT_M3U_URL);
 });
