@@ -52,7 +52,7 @@ var WidgetMetadata = {
   title: 'IPTV 直播',
   description: '读取 M3U 播放列表，按分组浏览并通过详情选集播放 IPTV 频道',
   author: 'Sanite',
-  version: '1.4.4',
+  version: '1.4.5',
   requiredVersion: '0.0.1',
   detailCacheDuration: 300,
   modules: [createIptvModule()],
@@ -188,14 +188,21 @@ function normalizeBackdropUrl(url) {
   return normalizeCompositeLogoUrl(url, 1200, 500, 800, 400);
 }
 
-function normalizeGroupPosterUrl(definition) {
+function normalizeGroupArtworkUrl(definition, width, height) {
   return 'https://images.weserv.nl/?url=' + encodeURIComponent(definition.iconUrl)
-    + '&w=1200&h=675&fit=contain&cbg=00000000&output=png';
+    + '&w=' + width + '&h=' + height + '&fit=contain&cbg=00000000&output=png';
+}
+
+function normalizeGroupCoverUrl(definition) {
+  return normalizeGroupArtworkUrl(definition, 1200, 675);
+}
+
+function normalizeGroupPosterUrl(definition) {
+  return normalizeGroupArtworkUrl(definition, 800, 1200);
 }
 
 function normalizeGroupBackdropUrl(definition) {
-  return 'https://images.weserv.nl/?url=' + encodeURIComponent(definition.iconUrl)
-    + '&w=1200&h=675&fit=contain&cbg=00000000&output=png';
+  return normalizeGroupArtworkUrl(definition, 1200, 675);
 }
 
 function toVideoItem(channel, playable) {
@@ -226,8 +233,8 @@ function toGroupItem(definition, channels) {
   item.description = channels.length + ' 个频道 · IPTV 直播';
   item.durationText = channels.length + ' 个频道';
   item.genreTitle = definition.title;
-  item.coverUrl = normalizeGroupPosterUrl(definition);
-  item.posterPath = item.coverUrl;
+  item.coverUrl = normalizeGroupCoverUrl(definition);
+  item.posterPath = normalizeGroupPosterUrl(definition);
   item.backdropPath = normalizeGroupBackdropUrl(definition);
   return item;
 }
@@ -279,8 +286,8 @@ async function loadDetail(link) {
     categoryDetail.description = definition.title + ' · ' + categoryChannels.length + ' 个频道';
     categoryDetail.durationText = categoryChannels.length + ' 个频道';
     categoryDetail.genreTitle = definition.title;
-    categoryDetail.coverUrl = normalizeGroupPosterUrl(definition);
-    categoryDetail.posterPath = categoryDetail.coverUrl;
+    categoryDetail.coverUrl = normalizeGroupCoverUrl(definition);
+    categoryDetail.posterPath = normalizeGroupPosterUrl(definition);
     categoryDetail.backdropPath = normalizeGroupBackdropUrl(definition);
     return categoryDetail;
   }

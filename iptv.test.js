@@ -49,9 +49,9 @@ function expectedCompositeLogoUrl(source, width, height, logoWidth, logoHeight, 
     'lfo-center,l-end,l-end/transparent.png';
 }
 
-function expectedGroupArtworkUrl(url) {
+function expectedGroupArtworkUrl(url, width = 1200, height = 675) {
   return 'https://images.weserv.nl/?url=' + encodeURIComponent(url)
-    + '&w=1200&h=675&fit=contain&cbg=00000000&output=png';
+    + '&w=' + width + '&h=' + height + '&fit=contain&cbg=00000000&output=png';
 }
 
 test('parseM3U extracts stream metadata and preserves commas in titles', () => {
@@ -112,9 +112,10 @@ test('loadList returns large category cards instead of individual channels', asy
   assert.equal(item.type, 'url');
   assert.equal(item.mediaType, undefined);
   assert.equal(item.coverUrl, expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL));
-  assert.equal(item.posterPath, item.coverUrl);
+  assert.equal(item.posterPath, expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL, 800, 1200));
   assert.equal(item.backdropPath, expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL));
   assert.equal(items[1].coverUrl, expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL));
+  assert.equal(items[1].posterPath, expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL, 800, 1200));
   assert.equal(items[1].backdropPath, expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL));
   assert.equal(item.videoUrl, undefined);
   assert.equal(item.genreItems, undefined);
@@ -133,7 +134,7 @@ test('module removes the top-right enumeration and keeps the beta tag', () => {
   assert.equal(modules[0].sectionMode, undefined);
   assert.equal(modules[0].cacheDuration, 300);
   assert.equal(context.WidgetMetadata.detailCacheDuration, 300);
-  assert.equal(context.WidgetMetadata.version, '1.4.4');
+  assert.equal(context.WidgetMetadata.version, '1.4.5');
   assert.equal(modules[0].params.some((param) => param.name === 'group'), false);
   assert.equal(modules[0].params[0].value, DEFAULT_M3U_URL);
 });
@@ -156,6 +157,7 @@ http://example.com/radio.m3u8
   assert.equal(detail.title, '央视频道');
   assert.equal(detail.link, 'iptv-group:央视频道');
   assert.equal(detail.coverUrl, listItems[0].coverUrl);
+  assert.equal(detail.posterPath, listItems[0].posterPath);
   assert.equal(detail.backdropPath, listItems[0].backdropPath);
   assert.equal(detail.videoUrl, 'http://example.com/cctv1.ts');
   assert.equal(detail.episode, 1);
@@ -223,18 +225,35 @@ liveTest('real M3U exposes four category cards with the correct episode lists', 
   assert.ok(allItems.every((item) => item.genreItems === undefined));
   assert.ok(allItems.every((item) => item.playerType === 'app'));
   assert.ok(allItems.every((item) => item.coverUrl.startsWith('https://images.weserv.nl/?url=')));
-  assert.ok(allItems.every((item) => item.posterPath === item.coverUrl));
+  assert.ok(allItems.every((item) => item.posterPath.includes('w=800&h=1200&fit=contain&cbg=00000000')));
   assert.ok(allItems.every((item) => item.backdropPath.includes('w=1200&h=675&fit=contain&cbg=00000000')));
 
   const expectedGroupArtwork = {
-    央视频道: [expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL), expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL)],
-    卫视频道: [expectedGroupArtworkUrl(GROUP_SATELLITE_ICON_URL), expectedGroupArtworkUrl(GROUP_SATELLITE_ICON_URL)],
-    央视精选: [expectedGroupArtworkUrl(GROUP_FEATURED_ICON_URL), expectedGroupArtworkUrl(GROUP_FEATURED_ICON_URL)],
-    广播频道: [expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL), expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL)],
+    央视频道: [
+      expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL),
+      expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL, 800, 1200),
+      expectedGroupArtworkUrl(GROUP_CCTV_ICON_URL),
+    ],
+    卫视频道: [
+      expectedGroupArtworkUrl(GROUP_SATELLITE_ICON_URL),
+      expectedGroupArtworkUrl(GROUP_SATELLITE_ICON_URL, 800, 1200),
+      expectedGroupArtworkUrl(GROUP_SATELLITE_ICON_URL),
+    ],
+    央视精选: [
+      expectedGroupArtworkUrl(GROUP_FEATURED_ICON_URL),
+      expectedGroupArtworkUrl(GROUP_FEATURED_ICON_URL, 800, 1200),
+      expectedGroupArtworkUrl(GROUP_FEATURED_ICON_URL),
+    ],
+    广播频道: [
+      expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL),
+      expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL, 800, 1200),
+      expectedGroupArtworkUrl(GROUP_RADIO_ICON_URL),
+    ],
   };
   for (const card of allItems) {
     assert.equal(card.coverUrl, expectedGroupArtwork[card.title][0]);
-    assert.equal(card.backdropPath, expectedGroupArtwork[card.title][1]);
+    assert.equal(card.posterPath, expectedGroupArtwork[card.title][1]);
+    assert.equal(card.backdropPath, expectedGroupArtwork[card.title][2]);
   }
 
   const expectedCounts = {
@@ -249,6 +268,7 @@ liveTest('real M3U exposes four category cards with the correct episode lists', 
     actualCounts[card.title] = detail.episodeItems.length;
     assert.equal(detail.title, card.title);
     assert.equal(detail.coverUrl, card.coverUrl);
+    assert.equal(detail.posterPath, card.posterPath);
     assert.equal(detail.backdropPath, card.backdropPath);
     assert.ok(detail.videoUrl);
     assert.equal(detail.mediaType, undefined);
