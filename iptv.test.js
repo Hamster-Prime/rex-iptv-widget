@@ -8,10 +8,10 @@ const MODULE_PATH = path.join(__dirname, 'iptv.js');
 const DEFAULT_M3U_URL = 'http://10.0.0.254/IPTV.m3u';
 const CCTV_LOGO = 'https://live.fanmingming.com/tv/CCTV1.png';
 const RADIO_LOGO = 'https://live.fanmingming.com/radio/中国之声.png';
-const GROUP_CCTV_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=7';
-const GROUP_RADIO_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=7';
-const GROUP_SATELLITE_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=7';
-const GROUP_FEATURED_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=7';
+const GROUP_CCTV_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/cctv.png?v=8';
+const GROUP_RADIO_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/radio.png?v=8';
+const GROUP_SATELLITE_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/satellite.png?v=8';
+const GROUP_FEATURED_ICON_URL = 'https://raw.githubusercontent.com/Hamster-Prime/rex-iptv-widget/main/icons/featured.png?v=8';
 
 const SAMPLE_M3U = `#EXTM3U x-tvg-url="https://example.com/epg.xml"
 #EXTINF:-1 tvg-id="cctv1" tvg-name="CCTV, One" tvg-logo="${CCTV_LOGO}" group-title="央视频道",CCTV-1 综合
@@ -141,7 +141,7 @@ test('module removes the top-right enumeration and keeps the beta tag', () => {
   assert.equal(modules[0].sectionMode, undefined);
   assert.equal(modules[0].cacheDuration, 300);
   assert.equal(context.WidgetMetadata.detailCacheDuration, 300);
-  assert.equal(context.WidgetMetadata.version, '1.4.7');
+  assert.equal(context.WidgetMetadata.version, '1.4.8');
   assert.equal(modules[0].params.some((param) => param.name === 'group'), false);
   assert.equal(modules[0].params[0].value, DEFAULT_M3U_URL);
 });
