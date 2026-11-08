@@ -52,7 +52,7 @@ var WidgetMetadata = {
   title: 'IPTV 直播',
   description: '读取 M3U 播放列表，按分组浏览并通过详情选集播放 IPTV 频道',
   author: 'Sanite',
-  version: '1.4.5',
+  version: '1.4.6',
   requiredVersion: '0.0.1',
   detailCacheDuration: 300,
   modules: [createIptvModule()],
@@ -194,7 +194,7 @@ function normalizeGroupArtworkUrl(definition, width, height) {
 }
 
 function normalizeGroupCoverUrl(definition) {
-  return normalizeGroupArtworkUrl(definition, 1200, 675);
+  return definition.iconUrl.replace('/icons/', '/icons/cover/');
 }
 
 function normalizeGroupPosterUrl(definition) {
